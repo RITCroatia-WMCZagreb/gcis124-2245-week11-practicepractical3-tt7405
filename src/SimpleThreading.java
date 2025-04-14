@@ -54,71 +54,14 @@ import java.util.ArrayList;
 
 public class SimpleThreading {
 
-    private int counter = 90;
-    private Object lock = new Object();
-
+   
     public SimpleThreading(){
-        ArrayList<Thread> threads = new ArrayList<Thread>();
-
-        for(int i=1;i<=5;i++){
-            Thread t = new Thread(new InnerThread(i));
-            t.start();//run the threads
-            threads.add(t);
-            /*try {
-                t.join();
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }//nono, do not call this here*/
-        }
-
-        for(Thread t: threads){
-            try {
-                t.join();
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-
-        System.out.println("Main: at end counter = " + counter);
+      
     }
 
     public static void main(String[] args) {
         new SimpleThreading();
     }
-
-
-    class InnerThread implements Runnable{
-
-        private int name;
-        public InnerThread(int name){
-            this.name = name;
-        }
-
-        @Override
-        public void run() {
-            for(int i=0;i<10;i++){
-
-              
-
-                synchronized(lock){
-                    if(counter<=0) break;
-                    counter = counter -3;
-                    System.out.println("Thread " + name + " counter " + counter);
-                }
-                
-
-                try {
-                    Thread.sleep(2);
-                } catch (InterruptedException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-        
-    }
+    
     
 }

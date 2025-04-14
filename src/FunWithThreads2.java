@@ -1,10 +1,15 @@
-public class FunWithThreads2 {
+public class FunWithThreads2 extends Thread{
+    
 
-
-    //Constructor of FunWithThreads
+    //Constructor of FunWithThreads2WithThreads
     public FunWithThreads2(){
-        System.out.println("MAIN START");
         
+        System.out.println("MAIN START");
+        Thread t1 = new Thread(new MyThread2("1"));
+        Thread t2 = new Thread(new MyThread2("2"));
+        t1.start();
+        t2.start();
+       
         System.out.println("MAIN END");
     }
 
@@ -14,8 +19,25 @@ public class FunWithThreads2 {
 
     }
 
+    class MyThread2 implements Runnable {
+        
+        private String name;
+        
+        public MyThread2(String name){
+            this.name = name;
+        }
 
-}
+
+        @Override
+        public void run() {
+            System.out.println("Thread " + name);
+            for(int i = 0; i<10 ;i++){
+                System.out.println("Thread " + name + " " + i);
+            }
+            
+        }
+
+    }}
 
 /*
  * 
