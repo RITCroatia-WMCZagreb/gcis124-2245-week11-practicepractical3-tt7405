@@ -50,18 +50,74 @@ to code this any way you want as long as the threads run concurrently.
 
 */
 
-import java.util.ArrayList;
-
 public class SimpleThreading {
+    private static int counter = 90;
 
-   
-    public SimpleThreading(){
-      
+    public SimpleThreading() {
+        // Create and start 5 threads
+        Thread t1 = new Thread(new MyThread(), "1");
+        Thread t2 = new Thread(new MyThread(), "2");
+        Thread t3 = new Thread(new MyThread(), "3");
+        Thread t4 = new Thread(new MyThread(), "4");
+        Thread t5 = new Thread(new MyThread(), "5");
+        
+        // Start all threads
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+        
+        // Wait for all threads to complete
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+            t4.join();
+            t5.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        
+        // Print final counter value
+        System.out.println("Main: at end counter = " + counter);
     }
-
+    
+    class MyThread implements Runnable {
+        @Override
+        public void run() {
+            while (true) {
+                boolean shouldContinue;
+                synchronized (SimpleThreading.this) {
+                    // Check if we should continue before modifying counter
+                    if (counter > 0) {
+                        // Subtract 3 from counter
+                        counter -= 3;
+                        // Print thread name and counter value
+                        System.out.println("Thread " + Thread.currentThread().getName() + " counter " + counter);
+                        shouldContinue = true;
+                    } else {
+                        shouldContinue = false;
+                        break;
+                    }
+                }
+                
+                // If we should stop, break out of the loop
+                if (!shouldContinue) {
+                    break;
+                }
+                
+                // Sleep for 2ms (outside synchronized block)
+                try {
+                    Thread.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
     public static void main(String[] args) {
         new SimpleThreading();
     }
-    
-    
 }

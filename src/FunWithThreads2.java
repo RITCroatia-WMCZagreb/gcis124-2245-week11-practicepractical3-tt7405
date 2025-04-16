@@ -30,10 +30,11 @@ public class FunWithThreads2 extends Thread{
 
         @Override
         public void run() {
-            System.out.println("Thread " + name);
+            System.out.println("Thread start: Thread " + name);
             for(int i = 0; i<10 ;i++){
                 System.out.println("Thread " + name + " " + i);
             }
+            System.out.println("Thread end: Thread " + name);
             
         }
 
